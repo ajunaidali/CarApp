@@ -1,0 +1,15 @@
+export const COLORS = {
+  background: '#0B0B0B',
+  surface: '#121212',
+  card: '#1A1A1A',
+  cardAlt: '#202020',
+  text: '#F5F5F5',
+  muted: '#A0A0A0',
+  gold: '#D4AF37',
+  goldSoft: '#E8D791',
+  border: 'rgba(212, 175, 55, 0.25)',
+  success: '#5CC679',
+  error: '#F26161',
+  input: '#1F1F1F',
+  white: '#FFFFFF',
+};

@@ -1,14 +1,17 @@
 import React from 'react';
-import { ScrollView, StyleSheet, Text, View } from 'react-native';
+import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { Car } from '../data/cars';
 import { COLORS } from '../theme/colors';
 
 type Props = {
   cars: Car[];
   onSelectCar: (car: Car) => void;
+  onRemoveCar?: (id: string) => void;
+  onClear?: () => void;
+  onExplore?: () => void;
 };
 
-export function CompareScreen({ cars }: Props) {
+export function CompareScreen({ cars, onSelectCar, onRemoveCar, onClear, onExplore }: Props) {
   const specs = [
     { label: 'Price', key: 'price' },
     { label: 'Year', key: 'year' },
@@ -22,8 +25,8 @@ export function CompareScreen({ cars }: Props) {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Compare Cars</Text>
-      <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+      <View style={styles.titleRow}><Text style={styles.title}>Compare Cars</Text>{cars.length > 0 && <Pressable onPress={onClear}><Text style={styles.clear}>Clear all</Text></Pressable>}</View>
+      {cars.length === 0 ? <View style={styles.empty}><Text style={styles.emptyTitle}>No Cars to Compare</Text><Text style={styles.emptyText}>Select cars from Explore to compare them.</Text><Pressable style={styles.exploreButton} onPress={onExplore}><Text style={styles.exploreText}>Explore Cars</Text></Pressable></View> : <ScrollView horizontal showsHorizontalScrollIndicator={false}>
         <View style={styles.tableWrap}>
           <View style={styles.headerRow}>
             <Text style={styles.emptyCell}>Spec</Text>
@@ -31,6 +34,8 @@ export function CompareScreen({ cars }: Props) {
               <View key={car.id} style={styles.carHeader}>
                 <Text style={styles.brand}>{car.brand}</Text>
                 <Text style={styles.model}>{car.model}</Text>
+                <Pressable onPress={() => onSelectCar(car)}><Text style={styles.viewDetails}>View details</Text></Pressable>
+                <Pressable onPress={() => onRemoveCar?.(car.id)}><Text style={styles.remove}>Remove</Text></Pressable>
               </View>
             ))}
           </View>
@@ -45,7 +50,7 @@ export function CompareScreen({ cars }: Props) {
             </View>
           ))}
         </View>
-      </ScrollView>
+      </ScrollView>}
     </View>
   );
 }
@@ -62,6 +67,15 @@ const styles = StyleSheet.create({
     fontWeight: '800',
     marginBottom: 18,
   },
+  titleRow: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' },
+  clear: { color: COLORS.gold, fontWeight: '800' },
+  empty: { flex: 1, alignItems: 'center', justifyContent: 'center', padding: 24 },
+  emptyTitle: { color: COLORS.text, fontSize: 22, fontWeight: '800' },
+  emptyText: { color: COLORS.muted, textAlign: 'center', marginTop: 8, marginBottom: 18 },
+  exploreButton: { backgroundColor: COLORS.gold, borderRadius: 14, paddingHorizontal: 20, paddingVertical: 13 },
+  exploreText: { color: COLORS.background, fontWeight: '800' },
+  viewDetails: { color: COLORS.gold, fontSize: 11, marginTop: 12, fontWeight: '700' },
+  remove: { color: COLORS.error, fontSize: 11, marginTop: 8, fontWeight: '700' },
   tableWrap: {
     paddingBottom: 30,
   },

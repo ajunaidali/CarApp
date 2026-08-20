@@ -5,10 +5,12 @@ import { COLORS } from '../theme/colors';
 type Props = {
   visible: boolean;
   onClose: () => void;
-  onApply: () => void;
+  onApply: (filters: string[]) => void;
+  selectedFilters?: string[];
 };
 
-export function FilterModal({ visible, onClose, onApply }: Props) {
+export function FilterModal({ visible, onClose, onApply, selectedFilters = [] }: Props) {
+  const [selected, setSelected] = React.useState(selectedFilters);
   const filters = ['SUV', 'Sedan', 'Coupe', 'Hatchback', 'Electric', 'Automatic', 'Manual', 'Petrol', 'Hybrid'];
 
   return (
@@ -18,7 +20,7 @@ export function FilterModal({ visible, onClose, onApply }: Props) {
           <Text style={styles.title}>Refine your search</Text>
           <ScrollView contentContainerStyle={styles.content}>
             {filters.map(filter => (
-              <Pressable key={filter} style={styles.chip}>
+              <Pressable key={filter} style={[styles.chip, selected.includes(filter) && styles.selectedChip]} onPress={() => setSelected(current => current.includes(filter) ? current.filter(item => item !== filter) : [...current, filter])}>
                 <Text style={styles.chipText}>{filter}</Text>
               </Pressable>
             ))}
@@ -27,7 +29,7 @@ export function FilterModal({ visible, onClose, onApply }: Props) {
             <Pressable style={styles.secondaryButton} onPress={onClose}>
               <Text style={styles.secondaryText}>Cancel</Text>
             </Pressable>
-            <Pressable style={styles.primaryButton} onPress={onApply}>
+            <Pressable style={styles.primaryButton} onPress={() => onApply(selected)}>
               <Text style={styles.primaryText}>Apply</Text>
             </Pressable>
           </View>
@@ -75,6 +77,7 @@ const styles = StyleSheet.create({
     color: COLORS.text,
     fontWeight: '600',
   },
+  selectedChip: { backgroundColor: 'rgba(212, 175, 55, 0.18)', borderColor: COLORS.gold },
   actions: {
     flexDirection: 'row',
     justifyContent: 'space-between',

@@ -8,9 +8,11 @@ type Props = {
   isFavorite?: boolean;
   onPress?: () => void;
   onToggleFavorite?: () => void;
+  isCompared?: boolean;
+  onToggleCompare?: () => void;
 };
 
-export function CarCard({ car, isFavorite, onPress, onToggleFavorite }: Props) {
+export function CarCard({ car, isFavorite, onPress, onToggleFavorite, isCompared, onToggleCompare }: Props) {
   return (
     <Pressable style={styles.card} onPress={onPress}>
       <Image source={{ uri: car.images[0] }} style={styles.image} resizeMode="cover" />
@@ -24,6 +26,7 @@ export function CarCard({ car, isFavorite, onPress, onToggleFavorite }: Props) {
         </View>
         <Text style={styles.model}>{car.model}</Text>
         <Text style={styles.meta}>{car.year} • {car.fuel} • {car.transmission}</Text>
+        {onToggleCompare && <Pressable style={[styles.compareButton, isCompared && styles.compareSelected]} onPress={onToggleCompare}><Text style={styles.compareText}>{isCompared ? '✓ Comparing' : '+ Compare'}</Text></Pressable>}
       </View>
     </Pressable>
   );
@@ -92,4 +95,7 @@ const styles = StyleSheet.create({
     fontSize: 13,
     marginTop: 6,
   },
+  compareButton: { marginTop: 12, borderRadius: 10, borderWidth: 1, borderColor: COLORS.border, paddingVertical: 8, alignItems: 'center' },
+  compareSelected: { backgroundColor: 'rgba(212, 175, 55, 0.16)', borderColor: COLORS.gold },
+  compareText: { color: COLORS.gold, fontSize: 12, fontWeight: '800' },
 });

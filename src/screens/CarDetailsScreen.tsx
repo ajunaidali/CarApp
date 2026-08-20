@@ -1,17 +1,22 @@
 import React, { useState } from 'react';
-import { Image, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { Alert, Image, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { Car } from '../data/cars';
 import { COLORS } from '../theme/colors';
 
 type Props = {
   car: Car;
+  isFavorite?: boolean;
+  onToggleFavorite?: () => void;
+  onBookTestDrive?: () => void;
+  onBack?: () => void;
 };
 
-export function CarDetailsScreen({ car }: Props) {
+export function CarDetailsScreen({ car, isFavorite, onToggleFavorite, onBookTestDrive, onBack }: Props) {
   const [selectedImage, setSelectedImage] = useState(car.images[0]);
 
   return (
     <ScrollView style={styles.container} contentContainerStyle={styles.content}>
+      {onBack && <Pressable onPress={onBack} style={styles.backButton}><Text style={styles.backText}>‹ Back</Text></Pressable>}
       <Image source={{ uri: selectedImage }} style={styles.mainImage} resizeMode="cover" />
       <View style={styles.thumbnailRow}>
         {car.images.map(image => (
@@ -53,12 +58,12 @@ export function CarDetailsScreen({ car }: Props) {
         <Text style={styles.sectionTitle}>Dealer</Text>
         <Text style={styles.dealerName}>{car.dealer.name}</Text>
         <Text style={styles.dealerLocation}>{car.dealer.location}</Text>
-        <Pressable style={styles.contactButton}><Text style={styles.contactText}>Contact Dealer</Text></Pressable>
+        <Pressable style={styles.contactButton} onPress={() => Alert.alert('Contact Dealer', `${car.dealer.name}\n${car.dealer.phone}`)}><Text style={styles.contactText}>Contact Dealer</Text></Pressable>
       </View>
 
       <View style={styles.bottomActions}>
-        <Pressable style={styles.favoriteButton}><Text style={styles.primaryText}>♡ Add to Favorites</Text></Pressable>
-        <Pressable style={styles.bookingButton}><Text style={styles.bookingText}>📅 Book Test Drive</Text></Pressable>
+        <Pressable style={styles.favoriteButton} onPress={onToggleFavorite}><Text style={styles.primaryText}>{isFavorite ? '♥ Remove from Favorites' : '♡ Add to Favorites'}</Text></Pressable>
+        <Pressable style={styles.bookingButton} onPress={onBookTestDrive}><Text style={styles.bookingText}>Book Test Drive</Text></Pressable>
       </View>
     </ScrollView>
   );
@@ -72,6 +77,8 @@ const styles = StyleSheet.create({
   content: {
     paddingBottom: 36,
   },
+  backButton: { paddingHorizontal: 18, paddingVertical: 14 },
+  backText: { color: COLORS.gold, fontWeight: '800', fontSize: 16 },
   mainImage: {
     width: '100%',
     height: 300,

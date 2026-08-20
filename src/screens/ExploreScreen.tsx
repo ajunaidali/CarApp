@@ -11,23 +11,33 @@ type Props = {
   favorites: string[];
   onToggleFavorite: (id: string) => void;
   onSelectCar: (car: Car) => void;
+  compareIds?: string[];
+  onToggleCompare?: (id: string) => void;
 };
 
-export function ExploreScreen({ cars, favorites, onToggleFavorite, onSelectCar }: Props) {
+export function ExploreScreen({ cars, favorites, onToggleFavorite, onSelectCar, compareIds = [], onToggleCompare }: Props) {
   const [search, setSearch] = useState('');
   const [showFilters, setShowFilters] = useState(false);
+  const [filters, setFilters] = useState<string[]>([]);
+  const [sortAsc, setSortAsc] = useState(false);
 
   const filteredCars = useMemo(() => {
-    return cars.filter(car => `${car.brand} ${car.model}`.toLowerCase().includes(search.toLowerCase()));
-  }, [cars, search]);
+    const result = cars.filter(car => {
+      const haystack = `${car.brand} ${car.model} ${car.year} ${car.category} ${car.bodyType}`.toLowerCase();
+      const matchesSearch = haystack.includes(search.toLowerCase());
+      const matchesFilters = filters.length === 0 || filters.some(filter => [car.brand, car.fuel, car.transmission, car.bodyType, car.category, String(car.year)].includes(filter));
+      return matchesSearch && matchesFilters;
+    });
+    return result.sort((a, b) => sortAsc ? a.price - b.price : b.price - a.price);
+  }, [cars, search, filters, sortAsc]);
 
   return (
     <View style={styles.container}>
       <View style={styles.toolbar}>
         <Text style={styles.title}>Explore Cars</Text>
         <View style={styles.actionRow}>
-          <Pressable style={styles.smallButton}><Text style={styles.smallText}>Filter</Text></Pressable>
-          <Pressable style={styles.smallButton}><Text style={styles.smallText}>Sort</Text></Pressable>
+          <Pressable style={styles.smallButton} onPress={() => setShowFilters(true)}><Text style={styles.smallText}>Filter</Text></Pressable>
+          <Pressable style={styles.smallButton} onPress={() => setSortAsc(current => !current)}><Text style={styles.smallText}>{sortAsc ? 'Price ↑' : 'Price ↓'}</Text></Pressable>
         </View>
       </View>
       <SearchBar value={search} onChangeText={setSearch} />
@@ -39,12 +49,14 @@ export function ExploreScreen({ cars, favorites, onToggleFavorite, onSelectCar }
             isFavorite={favorites.includes(car.id)}
             onToggleFavorite={() => onToggleFavorite(car.id)}
             onPress={() => onSelectCar(car)}
+            isCompared={compareIds.includes(car.id)}
+            onToggleCompare={onToggleCompare ? () => onToggleCompare(car.id) : undefined}
           />
         )) : (
           <Text style={styles.emptyText}>No cars match your search.</Text>
         )}
       </ScrollView>
-      <FilterModal visible={showFilters} onClose={() => setShowFilters(false)} onApply={() => setShowFilters(false)} />
+      <FilterModal visible={showFilters} selectedFilters={filters} onClose={() => setShowFilters(false)} onApply={next => { setFilters(next); setShowFilters(false); }} />
     </View>
   );
 }

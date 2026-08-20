@@ -1,5 +1,5 @@
 import React, { useMemo, useState } from 'react';
-import { Image, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { Alert, Image, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { BrandCard } from '../components/BrandCard';
 import { CarCard } from '../components/CarCard';
 import { CategoryCard } from '../components/CategoryCard';
@@ -14,6 +14,7 @@ type Props = {
   onSelectCar: (car: Car) => void;
   onOpenDetails: (car: Car) => void;
   onOpenFindMyCar: () => void;
+  onOpenProfile?: () => void;
 };
 
 const brandImages: Record<string, string> = {
@@ -24,7 +25,7 @@ const brandImages: Record<string, string> = {
   Honda: 'https://images.unsplash.com/photo-1544636331-e26879cd4d9b?auto=format&fit=crop&w=400&q=80',
 };
 
-export function HomeScreen({ cars, favorites, onToggleFavorite, onSelectCar, onOpenDetails, onOpenFindMyCar }: Props) {
+export function HomeScreen({ cars, favorites, onToggleFavorite, onSelectCar, onOpenDetails, onOpenFindMyCar, onOpenProfile }: Props) {
   const [search, setSearch] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('SUV');
 
@@ -46,8 +47,8 @@ export function HomeScreen({ cars, favorites, onToggleFavorite, onSelectCar, onO
           <Text style={styles.logo}>CarApp</Text>
         </View>
         <View style={styles.headerIcons}>
-          <Pressable style={styles.iconButton}><Text style={styles.iconText}>🔔</Text></Pressable>
-          <Pressable style={styles.iconButton}><Text style={styles.iconText}>👤</Text></Pressable>
+          <Pressable style={styles.iconButton} onPress={() => Alert.alert('Notifications', 'You are all caught up.') }><Text style={styles.iconText}>🔔</Text></Pressable>
+          <Pressable style={styles.iconButton} onPress={onOpenProfile}><Text style={styles.iconText}>👤</Text></Pressable>
         </View>
       </View>
 
@@ -96,7 +97,7 @@ export function HomeScreen({ cars, favorites, onToggleFavorite, onSelectCar, onO
       </View>
       <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.brandRow}>
         {brands.map(brand => (
-          <BrandCard key={brand} name={brand} image={brandImages[brand]} />
+          <BrandCard key={brand} name={brand} image={brandImages[brand]} onPress={() => setSearch(brand)} />
         ))}
       </ScrollView>
 

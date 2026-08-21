@@ -24,7 +24,12 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
   const persist = (next: object) => AsyncStorage.mergeItem(STORAGE_KEY, JSON.stringify(next)).catch(() => undefined);
   const login = async (nextUser: User) => { setUser(nextUser); persist({ user: nextUser }); };
   const signup = async (nextUser: User) => { setUser(nextUser); persist({ user: nextUser }); };
-  const logout = async () => { setUser(null); persist({ user: null }); };
+  const logout = async () => {
+    setUser(null);
+    setFavorites([]);
+    setCompareIds([]);
+    persist({ user: null, favorites: [], compareIds: [] });
+  };
   const updateUser = async (nextUser: User) => { setUser(nextUser); persist({ user: nextUser }); };
   const toggleFavorite = (id: string) => setFavorites(current => { const next = current.includes(id) ? current.filter(item => item !== id) : [...current, id]; persist({ favorites: next }); return next; });
   const toggleCompare = (id: string) => setCompareIds(current => { const next = current.includes(id) ? current.filter(item => item !== id) : [...current, id]; persist({ compareIds: next }); return next; });

@@ -70,9 +70,11 @@ const styles = StyleSheet.create({
   },
   toolbar: {
     flexDirection: 'row',
+    flexWrap: 'wrap',
     justifyContent: 'space-between',
     alignItems: 'center',
     marginBottom: 16,
+    gap: 10,
   },
   title: {
     color: COLORS.text,
@@ -82,6 +84,7 @@ const styles = StyleSheet.create({
   actionRow: {
     flexDirection: 'row',
     gap: 10,
+    marginLeft: 'auto',
   },
   smallButton: {
     backgroundColor: COLORS.card,

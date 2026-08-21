@@ -11,6 +11,7 @@ type Props = {
 
 export function FilterModal({ visible, onClose, onApply, selectedFilters = [] }: Props) {
   const [selected, setSelected] = React.useState(selectedFilters);
+  React.useEffect(() => { if (visible) setSelected(selectedFilters); }, [visible, selectedFilters]);
   const filters = ['SUV', 'Sedan', 'Coupe', 'Hatchback', 'Electric', 'Automatic', 'Manual', 'Petrol', 'Hybrid'];
 
   return (
@@ -50,7 +51,8 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: 28,
     borderTopRightRadius: 28,
     padding: 20,
-    minHeight: 420,
+    maxHeight: '85%',
+    minHeight: 280,
   },
   title: {
     color: COLORS.text,

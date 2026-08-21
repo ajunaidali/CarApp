@@ -20,6 +20,10 @@ yarn start
 
 ## Step 2: Build and run your app
 
+### Android map setup
+
+The dealer map uses `react-native-maps`. For live Google map tiles on Android, add `MAPS_API_KEY=your_key` to `android/gradle.properties` or pass it as a Gradle project property. The app remains buildable without a key, but map tiles will not load until one is configured.
+
 With Metro running, open a new terminal window/pane from the root of your React Native project, and use one of the following commands to build and run your Android or iOS app:
 
 ### Android

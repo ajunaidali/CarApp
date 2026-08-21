@@ -1,5 +1,5 @@
 import React from 'react';
-import { Image, Pressable, StyleSheet, Text, View } from 'react-native';
+import { Image, Pressable, StyleSheet, Text, useWindowDimensions, View } from 'react-native';
 import { Car } from '../data/cars';
 import { COLORS } from '../theme/colors';
 
@@ -10,13 +10,18 @@ type Props = {
   onToggleFavorite?: () => void;
   isCompared?: boolean;
   onToggleCompare?: () => void;
+  matchPercentage?: number;
+  showDetailsLabel?: boolean;
 };
 
-export function CarCard({ car, isFavorite, onPress, onToggleFavorite, isCompared, onToggleCompare }: Props) {
+export function CarCard({ car, isFavorite, onPress, onToggleFavorite, isCompared, onToggleCompare, matchPercentage, showDetailsLabel }: Props) {
+  const { width } = useWindowDimensions();
+  const cardWidth = Math.min(290, Math.max(250, width - 36));
+
   return (
-    <Pressable style={styles.card} onPress={onPress}>
+    <Pressable style={({ pressed }) => [styles.card, { width: cardWidth }, pressed && styles.interactive]} onPress={onPress}>
       <Image source={{ uri: car.images[0] }} style={styles.image} resizeMode="cover" />
-      <Pressable style={styles.favoriteButton} onPress={onToggleFavorite}>
+      <Pressable style={({ pressed }) => [styles.favoriteButton, pressed && styles.pressed]} onPress={onToggleFavorite}>
         <Text style={styles.favoriteText}>{isFavorite ? '♥' : '♡'}</Text>
       </Pressable>
       <View style={styles.content}>
@@ -26,6 +31,8 @@ export function CarCard({ car, isFavorite, onPress, onToggleFavorite, isCompared
         </View>
         <Text style={styles.model}>{car.model}</Text>
         <Text style={styles.meta}>{car.year} • {car.fuel} • {car.transmission}</Text>
+        {matchPercentage !== undefined && <Text style={styles.match}>{matchPercentage}% Match</Text>}
+        {showDetailsLabel && <Text style={styles.details}>View Details →</Text>}
         {onToggleCompare && <Pressable style={[styles.compareButton, isCompared && styles.compareSelected]} onPress={onToggleCompare}><Text style={styles.compareText}>{isCompared ? '✓ Comparing' : '+ Compare'}</Text></Pressable>}
       </View>
     </Pressable>
@@ -34,7 +41,6 @@ export function CarCard({ car, isFavorite, onPress, onToggleFavorite, isCompared
 
 const styles = StyleSheet.create({
   card: {
-    width: 290,
     backgroundColor: COLORS.card,
     borderRadius: 24,
     overflow: 'hidden',
@@ -42,6 +48,7 @@ const styles = StyleSheet.create({
     borderColor: COLORS.border,
     marginRight: 16,
   },
+  interactive: { transform: [{ scale: 0.985 }], elevation: 5 },
   image: {
     width: '100%',
     height: 180,
@@ -64,6 +71,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: '700',
   },
+  pressed: { opacity: 0.8 },
   content: {
     padding: 16,
   },
@@ -95,6 +103,8 @@ const styles = StyleSheet.create({
     fontSize: 13,
     marginTop: 6,
   },
+  match: { color: COLORS.gold, fontSize: 13, fontWeight: '800', marginTop: 8 },
+  details: { color: COLORS.text, fontSize: 13, fontWeight: '700', marginTop: 10 },
   compareButton: { marginTop: 12, borderRadius: 10, borderWidth: 1, borderColor: COLORS.border, paddingVertical: 8, alignItems: 'center' },
   compareSelected: { backgroundColor: 'rgba(212, 175, 55, 0.16)', borderColor: COLORS.gold },
   compareText: { color: COLORS.gold, fontSize: 12, fontWeight: '800' },

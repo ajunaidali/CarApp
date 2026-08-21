@@ -1,5 +1,5 @@
 import React, { useMemo, useState } from 'react';
-import { Alert, Image, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { Image, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { BrandCard } from '../components/BrandCard';
 import { CarCard } from '../components/CarCard';
 import { CategoryCard } from '../components/CategoryCard';
@@ -47,7 +47,6 @@ export function HomeScreen({ cars, favorites, onToggleFavorite, onSelectCar, onO
           <Text style={styles.logo}>CarApp</Text>
         </View>
         <View style={styles.headerIcons}>
-          <Pressable style={styles.iconButton} onPress={() => Alert.alert('Notifications', 'You are all caught up.') }><Text style={styles.iconText}>🔔</Text></Pressable>
           <Pressable style={styles.iconButton} onPress={onOpenProfile}><Text style={styles.iconText}>👤</Text></Pressable>
         </View>
       </View>
@@ -181,7 +180,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    backgroundColor: 'linear-gradient(#121212,#1b1b1b)',
+    backgroundColor: COLORS.card,
     borderRadius: 22,
     paddingHorizontal: 18,
     paddingVertical: 18,
@@ -202,7 +201,8 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: '600',
     marginTop: 6,
-    maxWidth: 220,
+    flexShrink: 1,
+    maxWidth: '88%',
   },
   quizIcon: {
     color: COLORS.text,

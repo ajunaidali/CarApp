@@ -81,7 +81,7 @@ const styles = StyleSheet.create({
   backText: { color: COLORS.gold, fontWeight: '800', fontSize: 16 },
   mainImage: {
     width: '100%',
-    height: 300,
+    aspectRatio: 1.55,
   },
   thumbnailRow: {
     flexDirection: 'row',
@@ -115,6 +115,7 @@ const styles = StyleSheet.create({
   titleRow: {
     marginHorizontal: 18,
     flexDirection: 'row',
+    flexWrap: 'wrap',
     justifyContent: 'space-between',
     alignItems: 'center',
     marginTop: 8,
@@ -123,6 +124,8 @@ const styles = StyleSheet.create({
     color: COLORS.text,
     fontSize: 28,
     fontWeight: '800',
+    flexShrink: 1,
+    marginRight: 12,
   },
   price: {
     color: COLORS.text,
@@ -144,7 +147,7 @@ const styles = StyleSheet.create({
     gap: 12,
   },
   infoBox: {
-    width: '47%',
+    width: '48%',
     backgroundColor: COLORS.card,
     borderRadius: 18,
     padding: 14,

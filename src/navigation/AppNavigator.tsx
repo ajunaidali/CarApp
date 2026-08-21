@@ -97,7 +97,7 @@ const styles = StyleSheet.create({
   loadingScreen: { flex: 1, alignItems: 'center', justifyContent: 'center', paddingHorizontal: 24 },
   loadingLogo: { fontSize: 32, fontWeight: '900', marginTop: 16, letterSpacing: 0.5 },
   loadingText: { fontSize: 16, marginTop: 12, fontWeight: '600', textAlign: 'center' },
-  tabBar: { flexDirection: 'row', borderTopWidth: 1, paddingTop: 10, paddingBottom: 18, paddingHorizontal: 8 },
+  tabBar: { flexDirection: 'row', borderTopWidth: 1, paddingTop: 10, paddingBottom: 24, paddingHorizontal: 8 },
   tabItem: { flex: 1, alignItems: 'center', paddingVertical: 8, borderRadius: 14 },
   activeTabItem: { backgroundColor: 'rgba(212, 175, 55, 0.12)' },
   tabIcon: { fontSize: 20 },

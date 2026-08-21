@@ -150,7 +150,6 @@ const styles = StyleSheet.create({
   logoutMessage: { marginTop: 12, fontSize: 16, textAlign: 'center', lineHeight: 24 },
   logoutActions: { flexDirection: 'row', justifyContent: 'space-between', marginTop: 20, gap: 12 },
   cancelAction: { flex: 1, borderWidth: 1, borderRadius: 12, paddingVertical: 12, alignItems: 'center' },
-  cancellationActionText: { fontWeight: '800' },
   cancelActionText: { fontWeight: '800' },
   logoutAction: { flex: 1, borderRadius: 12, paddingVertical: 12, alignItems: 'center' },
   logoutActionText: { color: '#FFFFFF', fontWeight: '800' },

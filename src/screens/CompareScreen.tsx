@@ -78,6 +78,7 @@ const styles = StyleSheet.create({
   remove: { color: COLORS.error, fontSize: 11, marginTop: 8, fontWeight: '700' },
   tableWrap: {
     paddingBottom: 30,
+    paddingRight: 18,
   },
   headerRow: {
     flexDirection: 'row',

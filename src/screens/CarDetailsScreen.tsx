@@ -76,6 +76,7 @@ const styles = StyleSheet.create({
   },
   content: {
     paddingBottom: 36,
+    flexGrow: 1,
   },
   backButton: { paddingHorizontal: 18, paddingVertical: 14 },
   backText: { color: COLORS.gold, fontWeight: '800', fontSize: 16 },

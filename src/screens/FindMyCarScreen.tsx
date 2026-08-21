@@ -150,6 +150,7 @@ const styles = StyleSheet.create({
     fontWeight: '700',
   },
   backButton: {
+    flex: 1,
     marginTop: 18,
     backgroundColor: COLORS.card,
     borderRadius: 12,
@@ -157,6 +158,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   button: {
+    flex: 1,
     marginTop: 18,
     backgroundColor: COLORS.gold,
     borderRadius: 12,
